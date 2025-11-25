@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestaurantService } from '../../app/services/restaurant.service';
+
 @Component({
   selector: 'app-reserver',
   standalone: true,
@@ -53,6 +54,15 @@ import { RestaurantService } from '../../app/services/restaurant.service';
             </div>
           </div>
 
+          <!-- زرّ الحجز -->
+          <button
+            type="submit"
+            class="mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition"
+            [disabled]="reservationForm.invalid"
+          >
+            Réserver
+          </button>
+
         </form>
       </div>
     </div>
@@ -79,5 +89,15 @@ export class ReserverPageComponent {
     });
   }
 
-  submitReservation() {}
+ submitReservation() {
+  if (this.reservationForm.valid) {
+
+    this.restaurantService.addReservation(this.reservationForm.value);
+
+    this.reservationConfirmed = true;
+
+    this.reservationForm.reset();
+  }
+}
+
 }
