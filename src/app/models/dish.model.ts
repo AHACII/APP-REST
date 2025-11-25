@@ -6,3 +6,7 @@ export interface Dish {
   price: number;
   image?: string;
 }
+export interface CartItem {
+  dish: Dish;
+  quantity: number;
+}

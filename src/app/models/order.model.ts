@@ -1,10 +1,12 @@
-import { CartItem } from "./cart-item.model";
+import { CartItem } from './cart-item.model';
 
 export interface Order {
   id: number;
-  items: CartItem[];
+  date?: string;
+  createdAt?: Date;
+  customerName?: string;
+  phone?: string;
+  orderType?: string;
+  items: any[];
   total: number;
-  customerName: string;
-  phone: string;
-  type: 'sur place' | 'à emporter';
 }
