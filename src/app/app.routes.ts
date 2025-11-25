@@ -1,6 +1,13 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  
+  // ➕ Admin route
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('../pages/admin/admin-page.component').then(m => m.AdminPageComponent)
+  },
   {
     path: '',
     loadComponent: () =>
@@ -21,6 +28,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('../pages/reserver/reserver-page.component').then(m => m.ReserverPageComponent)
   },
+
+
   {
     path: '**',
     redirectTo: ''

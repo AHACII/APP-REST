@@ -30,6 +30,25 @@ export class RestaurantService {
     this.dishes.set([...this.dishes(), dish]);
     this.save();
   }
+getCategories(): string[] {
+  const categories = this.dishes().map(d => d.category);
+  return [...new Set(categories)]; 
+}
+updateDish(updatedDish: Dish) {
+  const newList = this.dishes().map(d =>
+    d.id === updatedDish.id ? updatedDish : d
+  );
+
+  this.dishes.set(newList);
+  this.save();
+}
+deleteReservation(id: number) {
+  this.reservations.set(
+    this.reservations().filter(r => r.id !== id)
+  );
+
+  this.save();
+}
 
   deleteDish(id: number) {
     this.dishes.set(this.dishes().filter(d => d.id !== id));

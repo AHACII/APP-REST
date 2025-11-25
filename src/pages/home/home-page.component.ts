@@ -9,9 +9,14 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="max-w-6xl mx-auto mt-10 px-4">
 
-      
       <div class="text-center py-10 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl mb-10">
-        <h1 class="text-4xl md:text-6xl font-bold mb-3">{{ restaurantInfo.name }}</h1>
+
+        <!-- CLICK TO GO ADMIN -->
+        <a routerLink="/admin" 
+           class="text-4xl md:text-6xl font-bold mb-3 hover:underline cursor-pointer block">
+          {{ restaurantInfo.name }}
+        </a>
+
         <p class="text-lg opacity-90 mb-6">{{ restaurantInfo.slogan }}</p>
 
         <img
@@ -20,7 +25,6 @@ import { RouterLink } from '@angular/router';
         />
       </div>
 
-      
       <div class="grid md:grid-cols-3 gap-6 mb-10">
         <div class="bg-white rounded-xl shadow p-6 text-center">
           <h2 class="text-2xl font-semibold mb-2">📍 Adresse</h2>
@@ -41,7 +45,6 @@ import { RouterLink } from '@angular/router';
         </div>
       </div>
 
-      
       <div class="grid md:grid-cols-3 gap-6">
         <div class="bg-white rounded-xl shadow p-6 text-center transform transition hover:scale-105">
           <h3 class="text-xl font-semibold">🍽️ Notre Menu</h3>
