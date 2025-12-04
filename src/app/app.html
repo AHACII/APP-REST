@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">
+      <i class="bi bi-cup-hot me-2"></i>Le Gourmet
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <i class="bi bi-house me-1"></i>Accueil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/menu" routerLinkActive="active">
+            <i class="bi bi-book me-1"></i>Menu
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link position-relative" routerLink="/order" routerLinkActive="active">
+            <i class="bi bi-cart3 me-1"></i>Commande
+            @if (cartItemCount > 0) {
+              <span class="cart-badge">{{ cartItemCount }}</span>
+            }
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/reservation" routerLinkActive="active">
+            <i class="bi bi-calendar-check me-1"></i>Réservation
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active">
+            <i class="bi bi-gear me-1"></i>Admin
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="mb-3">Le Gourmet</h5>
+        <p class="mb-0" style="opacity: 0.9;">Une expérience culinaire exceptionnelle au coeur de la ville.</p>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="mb-3">Horaires</h5>
+        <p class="mb-1" style="opacity: 0.9;">Lun - Ven: 11h00 - 23h00</p>
+        <p class="mb-1" style="opacity: 0.9;">Sam - Dim: 10h00 - 00h00</p>
+      </div>
+      <div class="col-md-4">
+        <h5 class="mb-3">Contact</h5>
+        <p class="mb-1" style="opacity: 0.9;"><i class="bi bi-geo-alt me-2"></i>Supmti - OUJDA. Maroc</p>
+        <p class="mb-1" style="opacity: 0.9;"><i class="bi bi-telephone me-2"></i>+212 7 01 02 03 04</p>
+        <p class="mb-0" style="opacity: 0.9;"><i class="bi bi-envelope me-2"></i>contact&#64;legourmet.ma</p>
+      </div>
+    </div>
+  </div>
+</footer>

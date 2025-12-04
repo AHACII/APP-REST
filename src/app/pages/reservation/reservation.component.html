@@ -1,0 +1,161 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="text-center mb-5">
+        <h1 class="section-title">Réservation</h1>
+        <p class="text-muted mt-4">Réservez votre table pour une expérience gastronomique inoubliable</p>
+      </div>
+
+      @if (!reservationConfirmed) {
+        <div class="card">
+          <div class="card-body p-4 p-md-5">
+            <form [formGroup]="reservationForm" (ngSubmit)="submitReservation()">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Nom complet *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    <input type="text" class="form-control" formControlName="name" placeholder="Votre nom"
+                           [class.is-invalid]="reservationForm.get('name')?.invalid && reservationForm.get('name')?.touched">
+                  </div>
+                  @if (reservationForm.get('name')?.invalid && reservationForm.get('name')?.touched) {
+                    <div class="text-danger small mt-1">
+                      Le nom est requis (minimum 2 caractères)
+                    </div>
+                  }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Email *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" formControlName="email" placeholder="votre@email.com"
+                           [class.is-invalid]="reservationForm.get('email')?.invalid && reservationForm.get('email')?.touched">
+                  </div>
+                  @if (reservationForm.get('email')?.invalid && reservationForm.get('email')?.touched) {
+                    <div class="text-danger small mt-1">
+                      Email invalide
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Téléphone *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="tel" class="form-control" formControlName="phone" placeholder="+33 1 23 45 67 89"
+                           [class.is-invalid]="reservationForm.get('phone')?.invalid && reservationForm.get('phone')?.touched">
+                  </div>
+                  @if (reservationForm.get('phone')?.invalid && reservationForm.get('phone')?.touched) {
+                    <div class="text-danger small mt-1">
+                      Numéro de téléphone invalide
+                    </div>
+                  }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Nombre de personnes *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-people"></i></span>
+                    <input type="number" class="form-control" formControlName="numberOfPeople" 
+                           min="1" max="20"
+                           [class.is-invalid]="reservationForm.get('numberOfPeople')?.invalid && reservationForm.get('numberOfPeople')?.touched">
+                  </div>
+                  @if (reservationForm.get('numberOfPeople')?.invalid && reservationForm.get('numberOfPeople')?.touched) {
+                    <div class="text-danger small mt-1">
+                      Entre 1 et 20 personnes
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Date *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                    <input type="date" class="form-control" formControlName="date" [min]="minDate"
+                           [class.is-invalid]="reservationForm.get('date')?.invalid && reservationForm.get('date')?.touched">
+                  </div>
+                  @if (reservationForm.get('date')?.hasError('required') && reservationForm.get('date')?.touched) {
+                    <div class="text-danger small mt-1">
+                      La date est requise
+                    </div>
+                  }
+                  @if (reservationForm.get('date')?.hasError('pastDate')) {
+                    <div class="text-danger small mt-1">
+                      La date doit être dans le futur
+                    </div>
+                  }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Heure *</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-clock"></i></span>
+                    <select class="form-select" formControlName="time"
+                            [class.is-invalid]="reservationForm.get('time')?.invalid && reservationForm.get('time')?.touched">
+                      <option value="">Choisir une heure</option>
+                      @for (time of getAvailableTimes(); track time) {
+                        <option [value]="time">{{ time }}</option>
+                      }
+                    </select>
+                  </div>
+                  @if (reservationForm.get('time')?.invalid && reservationForm.get('time')?.touched) {
+                    <div class="text-danger small mt-1">
+                      L'heure est requise
+                    </div>
+                  }
+                </div>
+              </div>
+
+              <hr class="my-4">
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg" [disabled]="reservationForm.invalid">
+                  <i class="bi bi-calendar-check me-2"></i>Confirmer la réservation
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title mb-3">
+              <i class="bi bi-info-circle me-2 text-warning"></i>Informations utiles
+            </h5>
+            <ul class="mb-0">
+              <li>Les réservations sont confirmées par email sous 24h</li>
+              <li>Pour les groupes de plus de 10 personnes, contactez-nous directement</li>
+              <li>Annulation gratuite jusqu'à 2h avant l'heure de réservation</li>
+            </ul>
+          </div>
+        </div>
+      } @else {
+        <div class="confirmation-modal">
+          <div class="card">
+            <div class="card-body text-center py-5">
+              <i class="bi bi-check-circle-fill success-icon"></i>
+              <h2 class="mt-4 mb-3">Réservation confirmée !</h2>
+              <p class="text-muted mb-4">
+                Votre réservation #{{ reservationId }} a été enregistrée.<br>
+                Un email de confirmation vous sera envoyé sous peu.
+              </p>
+              <div class="d-flex justify-content-center gap-3">
+                <a routerLink="/" class="btn btn-primary">
+                  <i class="bi bi-house me-2"></i>Retour à l'accueil
+                </a>
+                <button class="btn btn-outline-secondary" (click)="closeConfirmation()">
+                  Nouvelle réservation
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

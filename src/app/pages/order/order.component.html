@@ -1,0 +1,168 @@
+<div class="container py-5">
+  <div class="text-center mb-5">
+    <h1 class="section-title">Votre Commande</h1>
+  </div>
+
+  @if (cartItems.length === 0 && !orderConfirmed) {
+    <div class="empty-state">
+      <i class="bi bi-cart-x"></i>
+      <h4>Votre panier est vide</h4>
+      <p>Ajoutez des plats depuis notre menu pour commencer votre commande</p>
+      <a routerLink="/menu" class="btn btn-primary mt-3">
+        <i class="bi bi-book me-2"></i>Voir le menu
+      </a>
+    </div>
+  } @else if (!orderConfirmed) {
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">
+              <i class="bi bi-cart3 me-2"></i>Articles ({{ cartItems.length }})
+            </h5>
+          </div>
+          <div class="card-body">
+            @for (item of cartItems; track item.dish.id) {
+              <div class="cart-item">
+                <div class="row align-items-center">
+                  <div class="col-md-2 col-3">
+                    <img [src]="item.dish.image" [alt]="item.dish.name" 
+                         class="img-fluid rounded"
+                         onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'">
+                  </div>
+                  <div class="col-md-4 col-9">
+                    <h6 class="mb-1">{{ item.dish.name }}</h6>
+                    <small class="text-muted">{{ item.dish.price }} DH</small>
+                  </div>
+                  <div class="col-md-3 col-6 mt-2 mt-md-0">
+                    <div class="quantity-control">
+                      <button class="btn btn-outline-secondary btn-sm" 
+                              (click)="updateQuantity(item.dish.id, item.quantity - 1)">
+                        <i class="bi bi-dash"></i>
+                      </button>
+                      <span class="quantity">{{ item.quantity }}</span>
+                      <button class="btn btn-outline-secondary btn-sm" 
+                              (click)="updateQuantity(item.dish.id, item.quantity + 1)">
+                        <i class="bi bi-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-4 mt-2 mt-md-0 text-end">
+                    <strong class="text-warning">{{ item.dish.price * item.quantity }} DH</strong>
+                  </div>
+                  <div class="col-md-1 col-2 mt-2 mt-md-0 text-end">
+                    <button class="btn btn-outline-danger btn-sm" (click)="removeItem(item.dish.id)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <div class="card-footer bg-white">
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-outline-danger btn-sm" (click)="clearCart()">
+                <i class="bi bi-trash me-1"></i>Vider le panier
+              </button>
+              <a routerLink="/menu" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-plus me-1"></i>Ajouter des articles
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">
+              <i class="bi bi-receipt me-2"></i>Finaliser la commande
+            </h5>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
+              <div class="mb-3">
+                <label class="form-label">Nom complet *</label>
+                <input type="text" class="form-control" formControlName="customerName"
+                       [class.is-invalid]="orderForm.get('customerName')?.invalid && orderForm.get('customerName')?.touched">
+                @if (orderForm.get('customerName')?.invalid && orderForm.get('customerName')?.touched) {
+                  <div class="invalid-feedback">
+                    Le nom est requis (minimum 2 caractères)
+                  </div>
+                }
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Téléphone *</label>
+                <input type="tel" class="form-control" formControlName="phone"
+                       [class.is-invalid]="orderForm.get('phone')?.invalid && orderForm.get('phone')?.touched">
+                @if (orderForm.get('phone')?.invalid && orderForm.get('phone')?.touched) {
+                  <div class="invalid-feedback">
+                    Numéro de téléphone invalide
+                  </div>
+                }
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label">Type de commande *</label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="surPlace" 
+                           formControlName="orderType" value="sur_place">
+                    <label class="form-check-label" for="surPlace">
+                      <i class="bi bi-shop me-1"></i>Sur place
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" id="aEmporter" 
+                           formControlName="orderType" value="a_emporter">
+                    <label class="form-check-label" for="aEmporter">
+                      <i class="bi bi-bag me-1"></i>À emporter
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="d-flex justify-content-between mb-2">
+                <span>Sous-total</span>
+                <span>{{ total }} DH</span>
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <strong>Total</strong>
+                <strong class="text-warning fs-4">{{ total }} DH</strong>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 btn-lg"
+                      [disabled]="orderForm.invalid || cartItems.length === 0">
+                <i class="bi bi-check2-circle me-2"></i>Valider la commande
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (orderConfirmed) {
+    <div class="confirmation-modal">
+      <div class="text-center py-5">
+        <i class="bi bi-check-circle-fill success-icon"></i>
+        <h2 class="mt-4 mb-3">Commande confirmée !</h2>
+        <p class="text-muted mb-4">
+          Votre commande #{{ orderId }} a été enregistrée avec succès.<br>
+          Nous la préparons avec soin.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <a routerLink="/menu" class="btn btn-primary">
+            <i class="bi bi-book me-2"></i>Retour au menu
+          </a>
+          <button class="btn btn-outline-secondary" (click)="closeConfirmation()">
+            Nouvelle commande
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

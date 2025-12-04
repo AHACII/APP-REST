@@ -1,0 +1,59 @@
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content text-center">
+      <h1 class="display-4 fw-bold mb-2">Le Gourmet</h1>
+      <p class="lead mb-0" style="opacity: 0.9;">Savourez l'excellence</p>
+    </div>
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200" 
+         alt="Restaurant interior" 
+         class="hero-image">
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="info-card h-100">
+          <i class="bi bi-geo-alt-fill info-icon"></i>
+          <div class="info-title">Adresse</div>
+          <div class="info-text">Supmti - OUJDA. Maroc</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="info-card h-100">
+          <i class="bi bi-telephone-fill info-icon"></i>
+          <div class="info-title">Contact</div>
+          <div class="info-text">+212 7 01 02 03 04</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="info-card h-100">
+          <i class="bi bi-clock-fill info-icon"></i>
+          <div class="info-title">Horaires</div>
+          <div class="info-text">Lun - Ven: 11h00 - 23h00</div>
+          <div class="info-text">Sam - Dim: 10h00 - 00h00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pb-5">
+  <div class="container">
+    <div class="row g-4">
+      @for (feature of features; track feature.title) {
+        <div class="col-md-4">
+          <div class="action-card h-100">
+            <i class="bi {{ feature.icon }} action-icon text-primary"></i>
+            <div class="action-title">{{ feature.title }}</div>
+            <div class="action-text">{{ feature.description }}</div>
+            <a [routerLink]="feature.link" class="btn btn-primary">
+              {{ feature.buttonText }}
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
