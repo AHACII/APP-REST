@@ -88,9 +88,9 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "host": "0.0.0.0",
+            "host": "localhost",
             "port": 5000,
-            "allowedHosts": true
+            "allowedHosts": false
           },
           "configurations": {
             "production": {
